@@ -2,7 +2,6 @@ import path from "path";
 import { Configuration, container as WebpackContainer } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-// import { ModuleFederationPlugin } from "@module-federation/enhanced/webpack";
 
 export default {
   entry: "./src/index.tsx",
