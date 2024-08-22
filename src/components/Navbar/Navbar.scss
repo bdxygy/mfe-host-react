@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem;
+  background-color: rgb(31, 0, 80);
+  color: white;
+
+  .item__link {
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+}
