@@ -4,12 +4,11 @@ import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
-import CssMinifyPlugin from "mini-css-extract-plugin";
 
 export default merge(WebpackDevConfig, {
   devtool: "hidden-source-map",
   output: {
-    publicPath: "auto",
+    publicPath: "/",
   },
   optimization: {
     minimize: true,
@@ -42,10 +41,6 @@ export default merge(WebpackDevConfig, {
           to: "assets",
         },
       ],
-    }),
-    new CssMinifyPlugin({
-      filename: "core/css/styles__[contenthash].css",
-      chunkFilename: "core/css/styles-chunk__[contenthash].css",
     }),
   ],
 });

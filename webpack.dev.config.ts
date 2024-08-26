@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 export default {
   entry: "./src/index.tsx",
   mode: "development",
+  target: "web",
   devtool: "eval-cheap-module-source-map",
   output: {
     filename: "core/js/script__[contenthash].js",
@@ -55,11 +56,22 @@ export default {
     watchFiles: [path.resolve(__dirname, "src")],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "core/css/styles__[contenthash].css",
+      chunkFilename: "core/css/styles-chunk__[contenthash].css",
+    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       inject: "body",
-      minify: true,
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: false,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+      },
     }),
     new WebpackContainer.ModuleFederationPlugin({
       name: "host",

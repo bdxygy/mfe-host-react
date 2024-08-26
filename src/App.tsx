@@ -3,7 +3,7 @@ import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 
 const Navbar = lazy(() => import("./components/Navbar/Navbar"));
-const About = lazy(() => import("remote_basic/about"));
+const About = lazy(() => import("./components/About/About"));
 const Home = lazy(() => import("./components/Home/Home"));
 
 export default function App() {

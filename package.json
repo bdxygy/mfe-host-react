@@ -5,21 +5,35 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve -c webpack.dev.config.ts",
-    "build": "webpack -c webpack.prod.config.ts",
-    "watch": "webpack -c webpack.prod.config.ts --watch"
+    "build:client": "webpack -c webpack.prod.config.ts",
+    "watch": "webpack -c webpack.prod.config.ts --watch",
+    "build:server": "webpack -c webpack.server.config.ts",
+    "serve": "node dist/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.19.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "@loadable/component": "^5.16.4",
+    "@loadable/server": "^5.16.5",
     "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@loadable/babel-plugin": "^5.16.1",
+    "@loadable/webpack-plugin": "^5.15.2",
+    "@types/express": "^4.17.21",
+    "@types/loadable__component": "^5.13.9",
+    "@types/loadable__server": "^5.12.11",
+    "@types/loadable__webpack-plugin": "^5.7.6",
     "@types/node": "^22.4.2",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
+    "@types/webpack-node-externals": "^3.0.4",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
@@ -32,10 +46,12 @@
     "sass-loader": "^16.0.1",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.10",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^6.0.1"
+    "webpack-merge": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }
