@@ -6,7 +6,8 @@ import TerserPlugin from "terser-webpack-plugin";
 
 export default {
   entry: "./cmd/main.tsx",
-  mode: "development",
+  mode: "production",
+  // mode: "development",
   target: "node",
   devtool: "eval-cheap-module-source-map",
   output: {
@@ -18,13 +19,20 @@ export default {
   externals: [NodeExternals()],
   module: {
     rules: [
+      // {
+      //   test: /\.[jt]sx?$/,
+      //   exclude: /node_modules/,
+      //   loader: "esbuild-loader",
+      //   options: {
+      //     target: "es2015",
+      //     legalComments: "none",
+      //   },
+      // },
       {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        loader: "esbuild-loader",
-        options: {
-          target: "es2015",
-          legalComments: "none",
+        use: {
+          loader: "swc-loader",
         },
       },
       {

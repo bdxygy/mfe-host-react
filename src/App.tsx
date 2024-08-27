@@ -1,12 +1,20 @@
 import React, { lazy, Suspense } from "react";
 import "./App.scss";
 import { Route, Routes } from "react-router-dom";
+import { useServer } from "./shared/data-context";
+import Home from "./components/Home/Home";
 
 const Navbar = lazy(() => import("./components/Navbar/Navbar"));
 const About = lazy(() => import("./components/About/About"));
-const Home = lazy(() => import("./components/Home/Home"));
+// const Home = lazy(() => import("./components/Home/Home"));
 
 export default function App() {
+  const response = useServer("users", () =>
+    fetch("https://jsonplaceholder.typicode.com/users").then((response) =>
+      response.json()
+    )
+  );
+
   return (
     <>
       <Suspense fallback={<h1>Loading Navbar...</h1>}>
@@ -16,9 +24,9 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Suspense fallback={<h1>Loading Home...</h1>}>
-              <Home />
-            </Suspense>
+            // <Suspense fallback={<h1>Loading Home...</h1>}>
+            <Home />
+            // </Suspense>
           }
         />
         <Route
@@ -30,6 +38,7 @@ export default function App() {
           }
         />
       </Routes>
+      <div>{response.ready && JSON.stringify(response.data)}</div>
     </>
   );
 }

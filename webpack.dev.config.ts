@@ -16,13 +16,20 @@ export default {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.[jt]sx?$/,
+      //   exclude: /node_modules/,
+      //   loader: "esbuild-loader",
+      //   options: {
+      //     target: "es2015",
+      //     legalComments: "none",
+      //   },
+      // },
       {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        loader: "esbuild-loader",
-        options: {
-          target: "es2015",
-          legalComments: "none",
+        use: {
+          loader: "swc-loader",
         },
       },
       {

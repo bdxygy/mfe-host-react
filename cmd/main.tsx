@@ -2,11 +2,16 @@ import React from "react";
 import fs from "fs/promises";
 import path from "path";
 import { cwd } from "process";
-import { renderToPipeableStream } from "react-dom/server";
+import { renderToPipeableStream, renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
+import {
+  DataContextProvider,
+  ServerContextDataT,
+} from "../src/shared/data-context";
 import express, { Express } from "express";
 import compression from "compression";
 import App from "../src/App";
+import { encrypt } from "../src/shared/crypto";
 
 // Resolve the path to the HTML template file
 const htmlFilePath = path.resolve(cwd(), "dist", "index.html");
@@ -33,20 +38,51 @@ app.get("*", async (req, res) => {
 
     res.setHeader("Content-Type", "text/html");
 
+    const contextObject: ServerContextDataT = {
+      _isServerSide: true,
+      _requests: [],
+      _data: {},
+    };
+
+    renderToString(
+      <DataContextProvider value={contextObject}>
+        <StaticRouter location={req.url}>
+          <App />
+        </StaticRouter>
+      </DataContextProvider>
+    );
+
+    console.log("Context Request", contextObject._requests);
+    if (contextObject._requests?.length) {
+      await Promise.all(contextObject._requests);
+      delete contextObject._requests;
+    }
+
+    contextObject._isServerSide = false;
+
     const { pipe } = renderToPipeableStream(
-      <StaticRouter location={req.url}>
-        <App />
-      </StaticRouter>,
+      <DataContextProvider value={contextObject}>
+        <StaticRouter location={req.url}>
+          <App />
+        </StaticRouter>
+      </DataContextProvider>,
       {
         onShellReady() {
           // Write the part before <div id="root"></div>
           res.write(beforeRootDiv);
           pipe(res); // Stream the React content
-          res.write(afterRootDiv); // Close the root div and write the rest of the template
-        },
-        onAllReady() {
+          res.write(
+            afterRootDiv.replace(
+              "</div>",
+              `</div>
+              <script type="application/json" id="__SERVER_DATA__">
+              ${encrypt({ _data: contextObject._data })}
+              </script>`
+            )
+          ); // Close the root div and write the rest of the template
           res.end();
         },
+        onAllReady() {},
         onError(err) {
           console.error("Error during rendering:", err);
           res.statusCode = 500;

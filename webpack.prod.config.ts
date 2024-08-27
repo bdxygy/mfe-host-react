@@ -7,13 +7,14 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 
 export default merge(WebpackDevConfig, {
   devtool: "hidden-source-map",
+  mode: "production",
   output: {
     publicPath: "/",
   },
   optimization: {
     minimize: true,
     minimizer: [
-      new CssMinimizerPlugin(),
+      new CssMinimizerPlugin(), 
       new TerserPlugin({
         parallel: true,
         extractComments: false,
