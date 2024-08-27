@@ -38,7 +38,10 @@ export default function App() {
           }
         />
       </Routes>
-      <div>{response.ready && JSON.stringify(response.data)}</div>
+      <div>
+        {response.ready &&
+          response.data.map((user: any) => <h2 key={user.id}>{user.name}</h2>)}
+      </div>
     </>
   );
 }

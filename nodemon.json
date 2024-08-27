@@ -1,0 +1,4 @@
+{
+  "exec": "pnpm build:client && pnpm build:server && pnpm serve",
+  "watch": ["cmd/", "src/"]
+}

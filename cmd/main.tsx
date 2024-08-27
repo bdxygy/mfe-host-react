@@ -75,8 +75,9 @@ app.get("*", async (req, res) => {
             afterRootDiv.replace(
               "</div>",
               `</div>
+              <script type="application/text" id="__SIGNATURES__">${new Date().toLocaleDateString()}</script>
               <script type="application/json" id="__SERVER_DATA__">
-              ${encrypt({ _data: contextObject._data })}
+              ${JSON.stringify({ _data: contextObject._data })}
               </script>`
             )
           ); // Close the root div and write the rest of the template
